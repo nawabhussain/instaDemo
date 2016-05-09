@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">PhotoGrid</string>
+    <string name="logout">Logout</string>
+    <string name="image">Image</string>
+</resources>
