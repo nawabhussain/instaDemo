@@ -19,6 +19,7 @@ public interface Constants {
 
     String ACCESS_TOKEN ="access_token";
     String PROFILE_ID = "profile_id";
+	String MEDIA_COUNT = "media_count";
 
     String PROFILE_MODEL = "profile_model";
 }

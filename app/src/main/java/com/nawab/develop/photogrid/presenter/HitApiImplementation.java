@@ -68,7 +68,10 @@ public class HitApiImplementation implements IHitApi, UpdateListener.onUpdateVie
                 String userId = sharedPrefsUtils.getSharedPrefString(Constants.PROFILE_ID, "PROFILE_ID");
                 String accessToken = sharedPrefsUtils.getSharedPrefString(Constants.ACCESS_TOKEN, "ACCESS_TOKEN");
 
-                url = Constants.API_URL + "/users/" + userId + "/media/recent/?access_token=" + accessToken;
+                if (mediaCount != 0)
+                    url = Constants.API_URL + "/users/" + userId + "/media/recent/?access_token=" + accessToken + "&count=" + mediaCount;
+                else
+                    url = Constants.API_URL + "/users/" + userId + "/media/recent/?access_token=" + accessToken;
                 Log.d(TAG, url);
 
                 request_ = VolleyStringRequest.doGet(url, new UpdateListener(this, reqType));
@@ -120,8 +123,11 @@ public class HitApiImplementation implements IHitApi, UpdateListener.onUpdateVie
                         JSONObject jObject = new JSONObject(responseString);
 
                         AccessTokenModel model = new Gson().fromJson(jObject.toString(), AccessTokenModel.class);
-                        mCallBack.onResponseHitApi(model, reqType, true);
+                        
+						int mediaCount = model.getUser().getCount().getMedia();
+                        sharedPrefsUtils.setSharedPrefInt(Constants.MEDIA_COUNT, mediaCount);
 
+						mCallBack.onResponseHitApi(model, reqType, true);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
